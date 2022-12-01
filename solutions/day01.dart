@@ -4,32 +4,28 @@ class Day01 extends GenericDay {
   Day01() : super(1);
 
   @override
-  Iterable<int> parseInput() {
-    final inputUtil = InputUtil(day);
-    final input = inputUtil.getPerLine();
-    final inputByElves = <List<String>>[];
-    var tmpElveInput = <String>[];
-    for (final line in input) {
+  List<int> parseInput() {
+    final inputData = input.getPerLine();
+
+    final caloriesByElves = <int>[];
+    var tmpColories = 0;
+
+    for (final line in inputData) {
       if (line.isNotEmpty) {
-        tmpElveInput.add(line);
+        tmpColories += int.parse(line);
       } else {
-        inputByElves.add(tmpElveInput);
-        tmpElveInput = [];
+        caloriesByElves.add(tmpColories);
+        tmpColories = 0;
       }
     }
 
-    // We convert each string to int then we sum them up.
-    final sumInputByElves = inputByElves
-        .map((e) => e.map((e) => int.parse(e)))
-        .map((e) => e.reduce((a, b) => a + b));
-
-    return sumInputByElves;
+    return caloriesByElves;
   }
 
   @override
   int solvePart1() {
-    final sumByElves = parseInput();
-    final maxCalories = sumByElves.reduce((a, b) => a > b ? a : b);
+    final caloriesByElves = parseInput();
+    final maxCalories = caloriesByElves.max;
 
     return maxCalories;
   }
@@ -37,11 +33,10 @@ class Day01 extends GenericDay {
   @override
   int solvePart2() {
     final sumByElves = parseInput();
-    final sortedSumByElves = sumByElves.toList()
-      ..sort((a, b) => b.compareTo(a));
+    final topThreeElves = sumByElves.toList()
+      ..sort((a, b) => b.compareTo(a))
+      ..take(3);
 
-    final topThreeElves = sortedSumByElves.take(3);
-    final sumTopThreeElves = topThreeElves.reduce((a, b) => a + b);
-    return sumTopThreeElves;
+    return topThreeElves.sum;
   }
 }
