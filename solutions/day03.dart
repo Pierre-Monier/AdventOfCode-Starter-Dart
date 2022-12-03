@@ -19,7 +19,7 @@ class Rucksack {
     final items1 = compartment1.split('').toSet();
     final items2 = compartment2.split('').toSet();
     final communItem = items1.intersection(items2).first;
-    return _itemsValue[communItem]!;
+    return getItemValue(communItem);
   }
 }
 
@@ -41,7 +41,7 @@ class ElfGroup {
     final badgeItem = rucksacks.fold<Set<String>>(
         rucksacks.first.allItems.toSet(),
         (a, b) => a.intersection(b.allItems.toSet()));
-    return _itemsValue[badgeItem.first]!;
+    return getItemValue(badgeItem.first);
   }
 }
 
@@ -77,57 +77,14 @@ class Day03 extends GenericDay {
   }
 }
 
-const _itemsValue = {
-  'a': 1,
-  'b': 2,
-  'c': 3,
-  'd': 4,
-  'e': 5,
-  'f': 6,
-  'g': 7,
-  'h': 8,
-  'i': 9,
-  'j': 10,
-  'k': 11,
-  'l': 12,
-  'm': 13,
-  'n': 14,
-  'o': 15,
-  'p': 16,
-  'q': 17,
-  'r': 18,
-  's': 19,
-  't': 20,
-  'u': 21,
-  'v': 22,
-  'w': 23,
-  'x': 24,
-  'y': 25,
-  'z': 26,
-  'A': 27,
-  'B': 28,
-  'C': 29,
-  'D': 30,
-  'E': 31,
-  'F': 32,
-  'G': 33,
-  'H': 34,
-  'I': 35,
-  'J': 36,
-  'K': 37,
-  'L': 38,
-  'M': 39,
-  'N': 40,
-  'O': 41,
-  'P': 42,
-  'Q': 43,
-  'R': 44,
-  'S': 45,
-  'T': 46,
-  'U': 47,
-  'V': 48,
-  'W': 49,
-  'X': 50,
-  'Y': 51,
-  'Z': 52,
-};
+// stole this from https://github.com/darrenaustin/advent-of-code-dart/blob/main/lib/src/2022/day03.dart
+int getItemValue(String s) {
+  final int lowerA = 'a'.codeUnitAt(0);
+  final int upperA = 'A'.codeUnitAt(0);
+
+  if (s.contains(RegExp(r'[a-z]'))) {
+    return s.codeUnitAt(0) - lowerA + 1;
+  }
+
+  return s.codeUnitAt(0) - upperA + 27;
+}
